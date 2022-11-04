@@ -1,21 +1,22 @@
 const puppeteer = require("puppeteer");
 
 (async () => {
-  const browser = await puppeteer.launch();
+  const browser = await puppeteer.launch({ headless: false });
   const page = await browser.newPage();
 
-  await page.goto("https://developers.google.com/web/");
+  await page.goto("https://google.com");
 
   // Type into search box.
-  await page.type(".devsite-search-field", "national  geographic");
+  await page.type(".gLFyf", "national  geographic");
+  await page.keyboard.press("Enter");
 
-  // Wait for suggest overlay to appear and click "show all results".
-  await page.waitForSelector(".v5yQqb");
-  await page.click(".v5yQqb");
+  // Wait for the class to load and click on the result
+  await page.waitForSelector(".CCgQ5");
+  await page.click(".CCgQ5");
 
-  // Wait for the results page to load and display the results.
-  await page.waitForSelector(".header-background");
-
+  // Wait for the class to be visible
+  await page.waitForSelector("#header-background");
+  //Then take screenshot
   await page.screenshot({ path: "national-geographic.png" });
 
   await browser.close();
